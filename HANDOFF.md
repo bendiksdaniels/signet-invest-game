@@ -62,8 +62,16 @@ Window: 2025-08 -> 2026-08 (13 monthly points, each series normalized to
   refresh them by hand in `i18n.js` when the data refreshes.
 
 ## Design decisions
-- Brand system ported verbatim from the number game (`tokens.css`): warm
-  charcoal #282623, bronze ramp around #b27e54, paper creams.
+- **2026 brand update applied** (source of truth: `brand/SignetBank_ColorCodes_
+  update_2026.pdf`): typeface Montserrat (@fontsource, all text incl. the old
+  serif voice, now Montserrat italic); dark stage = Signet Dark Green #273631 /
+  Marble #282623; Signet Gold #B27E54 keeps buttons, kickers and the fund
+  identity; light panel = Signet Stone #F4F4F4; muted text = Grey #7F7E7A;
+  Neon Green #DEF970 is the pop: the money line, its end dot, the positive
+  return badge, the stocks segment in the allocation bar and the "0 € left"
+  state. Signet Pink #D6B4B0 is in tokens (--pink) but unused so far. The
+  PDF's RGB lines for Marble/Dark Green are copy-paste typos - HEX values are
+  authoritative.
 - Line-language iconography: jagged = stocks, staircase = bonds, smooth = funds
   (`PathGlyph` in charts.jsx). The same glyphs head the builder columns and the
   info modals.
