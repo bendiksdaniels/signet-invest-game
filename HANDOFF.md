@@ -12,9 +12,11 @@ _Last updated: 2026-08-14._
 - **LIVE:** https://bendiksdaniels.github.io/signet-invest-game/
 - **Repo:** https://github.com/bendiksdaniels/signet-invest-game (public);
   push to `main` auto-builds and redeploys Pages in about a minute.
-- **Source:** `~/signet-invest-game` (built here because macOS privacy blocked
-  terminal READS of `~/Desktop/Side project/Desig_proejects/` that session;
-  `mv` the folder there if wanted, nothing depends on the path)
+- **Source (dev):** `~/signet-invest-game` - develop from here; macOS privacy
+  blocks terminal reads of Desktop paths in these sessions.
+- **Saved copy:** `~/Desktop/Signet /signet-invest-game` (moved via Finder
+  2026-08-14, includes .git, dist and brand/ palette PDF, no node_modules).
+  Treat it as Daniel's workspace snapshot; sync it via Finder or git, not cp.
 - **Run locally:** `npm run dev` (vite, :5173) or open `dist/index.html`
   directly - the build is ONE self-contained file (fonts inlined, offline-safe).
 - **Preview server used during the session:** `python3 -m http.server 8791` in
