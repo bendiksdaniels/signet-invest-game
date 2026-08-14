@@ -9,6 +9,9 @@ benchmark under every result. A second mini-game, the Baltic market quiz
 _Last updated: 2026-08-14._
 
 ## Where everything lives
+- **LIVE:** https://bendiksdaniels.github.io/signet-invest-game/
+- **Repo:** https://github.com/bendiksdaniels/signet-invest-game (public);
+  push to `main` auto-builds and redeploys Pages in about a minute.
 - **Source:** `~/signet-invest-game` (built here because macOS privacy blocked
   terminal READS of `~/Desktop/Side project/Desig_proejects/` that session;
   `mv` the folder there if wanted, nothing depends on the path)
@@ -17,9 +20,7 @@ _Last updated: 2026-08-14._
 - **Preview server used during the session:** `python3 -m http.server 8791` in
   `dist/` (http://localhost:8791).
 - Design base reused from the public `bendiksdaniels/signet-number-game` repo
-  (tokens.css, FitToScreen, hooks, fonts, singlefile build). No GitHub repo
-  created for THIS project yet; `.github/workflows/deploy.yml` is carried over
-  and will auto-deploy Pages if pushed to a repo with Pages enabled.
+  (tokens.css, hooks, fonts, singlefile build).
 
 ## Stack
 React 18 + Vite + framer-motion, `vite-plugin-singlefile`. Self-hosted fonts
@@ -96,7 +97,18 @@ Window: 2025-08 -> 2026-08 (13 monthly points, each series normalized to
   euro); all-in DelfinGroup EN -> €11,000 staircase, coupon stats; all-in SPY ->
   12 376 €, compare dedupes the SPY row; quiz 4/5 -> "Drošs investors", wrong
   answers mark red, facts render.
-- Fits 1440x900 with zero page scroll (result panels measured 900/900).
+- Scripted 21-step flow suite (scratchpad flow_test.js) run on Chromium AND real
+  WebKit at iPhone 390x844, iPad-landscape 1180x820, MacBook-window 1280x700:
+  21/21 PASS on both engines. Rendering also verified in real iOS Simulators
+  (iPhone 17 + iPad A16, Safari, live URL).
+- 3-agent audit (2026-08-14) found and we fixed: CTA unreachable below ~615px
+  height (centered flex overflow escapes the scroll range - now flex-start +
+  margin-block auto), stage side-gutter cascade collision, portrait-wide
+  windows getting the landscape CSS, exact-900px double-match, Safari <18
+  -webkit-backdrop-filter, Safari <16.2 color-mix fallbacks, and a data bug:
+  October 2025 silently dropped + August 2026 duplicated in the month grid
+  (missing-FX-month row drop; refresh_data.py now dedupes by label,
+  forward-fills FX, and asserts a unique shared grid).
 - Screenshots in `docs/screenshots/`.
 
 ## TODO / next steps
