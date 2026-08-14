@@ -226,9 +226,19 @@ svg { display: block; }
 .split__cta { margin-top: clamp(2px, 0.8vh, 8px); }
 
 @media (max-width: 900px) {
+  /* stacked: each half takes its natural height and the page scrolls; never
+     clip (overflow:hidden on a squeezed half was eating the kicker + CTA) */
   .split { flex-direction: column; }
+  .split__half { flex: 0 0 auto; overflow: visible; padding: clamp(20px, 4vh, 32px) 12px; }
+  .split__inner { max-width: 100%; }
+  .split__sub, .split__title { min-height: 0; }
   .split__divider { width: auto; height: 1px; margin: 0 clamp(24px, 10vw, 64px); }
 }
+
+/* long flex children (footer tagline, header row) must shrink + wrap, not
+   overflow the viewport edge on narrow screens */
+.app__header > *, .app__footer > * { min-width: 0; max-width: 100%; }
+.app__footer .kicker { white-space: normal; text-align: center; line-height: 1.6; }
 
 /* ---- the quiz ----------------------------------------------------------- */
 .quiz {
