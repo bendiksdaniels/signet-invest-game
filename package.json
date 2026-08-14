@@ -1,0 +1,25 @@
+{
+  "name": "signet-invest-game",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Where would you invest 10 000 EUR? A Signet Bank kiosk game: pick one investment, see its real last-12-months ride.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "refresh-data": "python3 scripts/refresh_data.py"
+  },
+  "dependencies": {
+    "@fontsource/space-grotesk": "^5.0.18",
+    "@fontsource/spectral": "^5.0.19",
+    "framer-motion": "^11.3.30",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.8",
+    "vite-plugin-singlefile": "^2.0.2"
+  }
+}
