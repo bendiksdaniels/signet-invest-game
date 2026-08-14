@@ -57,10 +57,13 @@ export default function Result({ alloc, onPlayAgain }) {
           <span className="brand">
             <Logo />
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span className="kicker" style={{ fontSize: 'var(--label-md)' }}>
               {t('resultKicker')}
             </span>
+            <button className="homebtn" onClick={onPlayAgain}>
+              {t('home')}
+            </button>
             <LangToggle lang={lang} setLang={setLang} />
           </div>
         </div>

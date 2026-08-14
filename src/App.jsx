@@ -80,24 +80,30 @@ export default function App() {
 
   return (
     <LangContext.Provider value={ctx}>
-      <Shell phase={phase} dir={dir} sliding={landscape} step={step} />
+      <Shell phase={phase} dir={dir} sliding={landscape} step={step} onHome={reset} />
     </LangContext.Provider>
   )
 }
 
-function Shell({ phase, dir, sliding, step }) {
+function Shell({ phase, dir, sliding, step, onHome }) {
   const { t, lang, setLang } = useT()
   return (
     <div className={sliding ? 'app app--dark app--fixed' : 'app app--dark'}>
       <header className="app__header">
-        <span className="brand">
-          <Logo />
-        </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        {phase === 'attract' ? (
+          <span className="brand">
+            <Logo />
+          </span>
+        ) : (
+          <button className="brand brand--link" onClick={onHome} aria-label={t('home')}>
+            <Logo />
+          </button>
+        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {phase !== 'attract' && (
-            <span className="kicker" style={{ fontSize: 'var(--label-md)' }}>
-              {t('gameKicker')}
-            </span>
+            <button className="homebtn" onClick={onHome}>
+              {t('home')}
+            </button>
           )}
           <LangToggle lang={lang} setLang={setLang} />
         </div>

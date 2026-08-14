@@ -14,6 +14,7 @@ export const STRINGS = {
     quizPanelSub: '5 jautājumi par Baltijas kapitāla tirgu. Cik labi tu to pazīsti?',
     play: 'Spēlēt',
     back: 'Atpakaļ',
+    home: 'Sākums',
 
     quizKicker: 'Baltijas tirgus viktorīna',
     quizQn: 'Jautājums {n}/{total}',
@@ -99,6 +100,7 @@ export const STRINGS = {
     quizPanelSub: '5 questions about the Baltic capital market. How well do you know it?',
     play: 'Play',
     back: 'Back',
+    home: 'Home',
 
     quizKicker: 'Baltic market quiz',
     quizQn: 'Question {n}/{total}',

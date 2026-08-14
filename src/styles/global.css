@@ -81,7 +81,20 @@ svg { display: block; }
 .stage--abs { position: absolute; inset: 0; padding: clamp(8px, 2vh, 24px) var(--gutter); overflow-y: auto; }
 
 .brand { display: inline-flex; align-items: center; gap: 10px; }
-.brand img { height: clamp(22px, 3.4vh, 34px); width: auto; display: block; }
+.brand img { height: clamp(22px, 3.4vh, 30px); width: auto; display: block; }
+.brand--link { cursor: pointer; }
+.brand--link:hover img { opacity: 0.8; }
+
+.homebtn {
+  padding: 7px 14px;
+  border: var(--border-hair) solid var(--border-on-dark);
+  border-radius: var(--radius-sm);
+  font-size: var(--label-md); font-weight: var(--fw-demi);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+.homebtn:hover { border-color: var(--accent); color: var(--accent-on-dark); }
 
 /* ---- shared text atoms -------------------------------------------------- */
 .kicker {
