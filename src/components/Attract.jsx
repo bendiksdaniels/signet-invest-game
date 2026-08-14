@@ -5,50 +5,41 @@ import { Arrow } from './ui.jsx'
 
 const EASE = [0.22, 1, 0.36, 1]
 
-// Ambient market line that keeps drawing and fading behind the question.
-function AmbientLine() {
-  const reduce = useReducedMotion()
-  if (reduce) return null
+// Static market line under the question: quiet, no motion.
+function MarketLine() {
   return (
     <svg className="ambient" viewBox="0 0 560 64" fill="none" aria-hidden="true">
-      <motion.path
+      <path
         d="M4 48 L52 34 L96 44 L150 22 L204 38 L258 14 L306 30 L354 20 L402 40 L450 12 L502 24 L556 8"
         stroke="var(--accent)"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: [0, 1, 1], opacity: [0, 0.55, 0] }}
-        transition={{ duration: 7, times: [0, 0.55, 1], repeat: Infinity, repeatDelay: 1.2, ease: 'easeInOut' }}
+        opacity="0.55"
       />
+      <circle cx="556" cy="8" r="4" fill="var(--accent-on-dark)" />
     </svg>
   )
 }
 
-// The quiz's mark: a question mark drawn as a single stroke, looping like the
-// market line so the two halves share one motion language.
-function QuizMark() {
-  const reduce = useReducedMotion()
+// The quiz's mark: a serif question mark inside a thin double ring, like a
+// signet seal. Static, on brand.
+function QuizSeal() {
   return (
-    <svg className="quizmark" viewBox="0 0 80 112" fill="none" aria-hidden="true">
-      <motion.path
-        d="M18 34 C18 12, 62 10, 62 33 C62 52, 41 52, 41 70 L41 76"
-        stroke="var(--accent-on-dark)"
-        strokeWidth="7"
-        strokeLinecap="round"
-        initial={reduce ? false : { pathLength: 0 }}
-        animate={reduce ? {} : { pathLength: [0, 1, 1] }}
-        transition={{ duration: 5.4, times: [0, 0.4, 1], repeat: Infinity, repeatDelay: 1, ease: 'easeInOut' }}
-      />
-      <motion.circle
-        cx="41"
-        cy="98"
-        r="5.5"
+    <svg className="quizmark" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <circle cx="48" cy="48" r="45" stroke="var(--gold-500)" strokeWidth="1.5" />
+      <circle cx="48" cy="48" r="39" stroke="var(--gold-500)" strokeWidth="0.75" opacity="0.55" />
+      <text
+        x="48"
+        y="66"
+        textAnchor="middle"
         fill="var(--accent-on-dark)"
-        initial={reduce ? false : { scale: 0, opacity: 0 }}
-        animate={reduce ? {} : { scale: [0, 1, 1, 1], opacity: [0, 1, 1, 1] }}
-        transition={{ duration: 6.4, times: [0.35, 0.45, 0.9, 1], repeat: Infinity, ease: 'easeOut' }}
-      />
+        fontFamily="Spectral, Georgia, serif"
+        fontSize="52"
+        fontWeight="600"
+      >
+        ?
+      </text>
     </svg>
   )
 }
@@ -86,7 +77,7 @@ export default function Attract({ onPlay }) {
           <span className="kicker">{t('gameKicker')}</span>
           <span className="split__motif">
             <span className="split__ambient">
-              <AmbientLine />
+              <MarketLine />
             </span>
           </span>
           <span className="display split__title">
@@ -112,7 +103,7 @@ export default function Attract({ onPlay }) {
         <motion.span className="split__inner" {...content('quiz')}>
           <span className="kicker">{t('quizKicker')}</span>
           <span className="split__motif">
-            <QuizMark />
+            <QuizSeal />
           </span>
           <span className="display split__title">{t('playQuiz')}</span>
           <span className="serif split__sub">{t('quizPanelSub')}</span>
