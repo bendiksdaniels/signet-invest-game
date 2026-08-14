@@ -45,6 +45,71 @@ svg { display: block; }
   --body-xl: clamp(16px, 0.7vw + 11px, 19px);
   --body-lg: clamp(15px, 0.5vw + 11px, 17px);
   --body-md: clamp(14px, 0.4vw + 11px, 16px);
+
+  /* themeable surfaces (the start screen's colour picker swaps these) */
+  --card-a: #34483f;
+  --card-b: #2c3d36;
+  --card-hover-a: #3b5148;
+  --card-hover-b: #33463f;
+  --chart-line: var(--neon);
+  --chart-dot-ring: #1a231f;
+  --chart-bench: var(--gold-300);
+  --scrim: rgba(16, 22, 19, 0.66);
+}
+
+/* ---- colour themes: 2026-palette variants, picked on the start screen ---- */
+.theme-marble {
+  --hero-glow:
+    radial-gradient(90% 60% at 50% 0%, rgba(178, 126, 84, 0.12) 0%, rgba(178, 126, 84, 0) 55%),
+    radial-gradient(140% 100% at 50% 14%, #37332e 0%, #282623 44%, #1e1c19 80%, #151311 100%);
+  --surface-dark: #282623;
+  --surface-dark-raised: #34302b;
+  --border-on-dark: #4a443d;
+  --ink-900: #1c1a18;
+  --text-on-dark-muted: #b3aca1;
+  --card-a: #383329;
+  --card-b: #2e2b26;
+  --card-hover-a: #403a30;
+  --card-hover-b: #36322b;
+  --chart-dot-ring: #1c1a18;
+  --scrim: rgba(20, 18, 15, 0.66);
+}
+.theme-green {
+  --hero-glow:
+    radial-gradient(90% 60% at 50% 0%, rgba(222, 249, 112, 0.06) 0%, rgba(222, 249, 112, 0) 55%),
+    radial-gradient(140% 100% at 50% 14%, #4c635a 0%, #41564f 44%, #32433d 80%, #263029 100%);
+  --surface-dark: #41564f;
+  --surface-dark-raised: #4c6259;
+  --border-on-dark: #5c7268;
+  --ink-900: #263029;
+  --text-on-dark-muted: #bccec4;
+  --card-a: #4d635a;
+  --card-b: #43584f;
+  --card-hover-a: #557066;
+  --card-hover-b: #4a6057;
+  --chart-dot-ring: #32433d;
+  --scrim: rgba(30, 40, 36, 0.66);
+}
+.theme-stone {
+  --hero-glow: radial-gradient(140% 100% at 50% 14%, #ffffff 0%, #f4f4f4 46%, #e9ebe9 100%);
+  --surface-dark: #f4f4f4;
+  --surface-dark-raised: #ffffff;
+  --border-on-dark: #c9cec9;
+  --ink-900: #e9ebe9;
+  --text-on-dark: #282623;
+  --text-on-dark-muted: #7f7e7a;
+  --accent-on-dark: #9c6a43;
+  --positive-on-dark: #41564f;
+  --negative-on-dark: #a23b32;
+  --neon: #9db238; /* olive-neon: keeps the pop legible on light ground */
+  --card-a: #ffffff;
+  --card-b: #f7f8f7;
+  --card-hover-a: #ffffff;
+  --card-hover-b: #f1f2f1;
+  --chart-line: #41564f;
+  --chart-dot-ring: #f4f4f4;
+  --chart-bench: #9c6a43;
+  --scrim: rgba(40, 38, 35, 0.4);
 }
 
 /* ---- app frame ---------------------------------------------------------- */
@@ -179,12 +244,38 @@ svg { display: block; }
 
 /* ---- split-screen attract: two games, tap a half and it takes the stage -- */
 .split {
+  position: relative;
   flex: 1 1 auto;
   align-self: stretch;
   width: 100%;
   min-height: 0;
   display: flex;
   align-items: stretch;
+}
+
+/* the colour picker on the start screen's left edge */
+.themedots {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+.themedots__dot {
+  width: 26px; height: 26px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--border-on-dark);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+}
+.themedots__dot:hover { transform: scale(1.15); border-color: var(--accent); }
+.themedots__dot[aria-pressed="true"] { border-color: var(--accent-on-dark); transform: scale(1.12); }
+
+@media (max-width: 899.98px), (orientation: portrait) {
+  .themedots { flex-direction: row; position: static; transform: none; justify-content: center; padding-top: 8px; order: 3; }
 }
 .split__half {
   flex: 1 1 0;
@@ -271,7 +362,7 @@ svg { display: block; }
   width: 100%; min-height: 60px;
   padding: 14px 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: linear-gradient(180deg, #34483f 0%, #2c3d36 100%);
+  background: linear-gradient(180deg, var(--card-a) 0%, var(--card-b) 100%);
   border: var(--border-hair) solid var(--border-on-dark);
   border-radius: var(--radius-md);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -280,7 +371,7 @@ svg { display: block; }
               background var(--dur-fast) var(--ease-out),
               opacity var(--dur-base) var(--ease-out);
 }
-.qopt:hover { border-color: var(--accent); background: linear-gradient(180deg, #3b5148 0%, #33463f 100%); }
+.qopt:hover { border-color: var(--accent); background: linear-gradient(180deg, var(--card-hover-a) 0%, var(--card-hover-b) 100%); }
 .qopt.is-correct { border-color: var(--neon); background: #40544e; background: color-mix(in oklab, var(--positive-on-dark) 16%, var(--surface-dark-raised)); }
 .qopt.is-wrong { border-color: var(--negative-on-dark); background: #494f49; background: color-mix(in oklab, var(--negative-on-dark) 14%, var(--surface-dark-raised)); }
 .qopt.is-off { opacity: 0.45; }
@@ -365,7 +456,7 @@ svg { display: block; }
 .modal-scrim {
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(16, 22, 19, 0.66);
+  background: var(--scrim);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   padding: var(--gutter);
@@ -388,7 +479,7 @@ svg { display: block; }
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   width: 100%; min-height: 64px;
   padding: 10px 14px;
-  background: linear-gradient(180deg, #34483f 0%, #2c3d36 100%);
+  background: linear-gradient(180deg, var(--card-a) 0%, var(--card-b) 100%);
   border: var(--border-hair) solid var(--border-on-dark);
   border-radius: var(--radius-md);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -398,7 +489,7 @@ svg { display: block; }
               transform var(--dur-fast) var(--ease-out),
               opacity var(--dur-fast) var(--ease-out);
 }
-.acard:hover { border-color: var(--accent); background: linear-gradient(180deg, #3b5148 0%, #33463f 100%); }
+.acard:hover { border-color: var(--accent); background: linear-gradient(180deg, var(--card-hover-a) 0%, var(--card-hover-b) 100%); }
 .acard:active { transform: scale(0.99); }
 .acard--on { border-color: var(--accent); background: #434d43; background: color-mix(in oklab, var(--accent) 14%, var(--surface-dark-raised)); }
 .acard--dim { opacity: 0.55; }
@@ -477,14 +568,14 @@ svg { display: block; }
    The money line is Neon Green — the 2026 pop colour. */
 .result__chartwrap { flex: 1 1 auto; min-height: 180px; margin-top: clamp(8px, 1.6vh, 18px); }
 .moneychart { width: 100%; height: 100%; min-height: 0; min-width: 0; }
-.mc-main { fill: none; stroke: var(--neon); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-.mc-bench { fill: none; stroke: var(--gold-300); stroke-width: 1.8; stroke-dasharray: 5 6; stroke-linecap: round; }
-.mc-dot { fill: var(--neon); stroke: #1a231f; stroke-width: 2.5; }
+.mc-main { fill: none; stroke: var(--chart-line); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.mc-bench { fill: none; stroke: var(--chart-bench); stroke-width: 1.8; stroke-dasharray: 5 6; stroke-linecap: round; }
+.mc-dot { fill: var(--chart-line); stroke: var(--chart-dot-ring); stroke-width: 2.5; }
 .mc-base { stroke: var(--border-on-dark); stroke-width: 1; stroke-dasharray: 2 5; }
 .mc-tick { stroke: var(--border-on-dark); stroke-width: 1; }
 .mc-axis { fill: var(--text-on-dark-muted); font-size: 15px; font-family: var(--font-ui); }
 .mc-baselabel { fill: var(--text-on-dark-muted); font-size: 14px; font-family: var(--font-ui); font-variant-numeric: tabular-nums; }
-.mc-benchlabel { fill: var(--gold-200); font-size: 14px; font-family: var(--font-ui); }
+.mc-benchlabel { fill: var(--chart-bench); font-size: 14px; font-family: var(--font-ui); }
 
 /* stats strip */
 .result__strip { display: flex; gap: clamp(28px, 5vw, 56px); align-items: flex-end; padding-top: clamp(14px, 2.4vh, 24px); border-top: var(--border-hair) solid var(--border-on-dark); }

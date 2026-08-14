@@ -4,14 +4,13 @@ import { createContext, useContext } from 'react'
 export const STRINGS = {
   lv: {
     langName: 'LV',
-    tagline: 'Banka ambicioziem cilvēkiem un viņu uzņēmumiem',
     gameKicker: 'Investīciju spēle',
-    attractTitle1: 'Kur tu ieguldītu',
+    attractTitle1: 'Kur Tu ieguldītu',
     attractTitle2: '10 000 €?',
     attractSub: 'Sadali naudu pa nozarēm, obligācijām un fondiem un uzzini, kas ar to būtu noticis pēdējos 12 mēnešos.',
     playSplit: 'Sadali 10 000 €',
     playQuiz: 'Tirgus viktorīna',
-    quizPanelSub: '5 jautājumi par Baltijas kapitāla tirgu. Cik labi tu to pazīsti?',
+    quizPanelSub: '5 jautājumi par Baltijas kapitāla tirgu. Cik labi Tu to pazīsti?',
     play: 'Spēlēt',
     back: 'Atpakaļ',
     home: 'Sākums',
@@ -40,11 +39,11 @@ export const STRINGS = {
     colBonds: 'Obligācijas',
     colFunds: 'Fondi',
     infoStocksTitle: 'Kas ir akcijas?',
-    infoStocksBody: 'Akcija ir daļa uzņēmumā: ja uzņēmumam iet labi, tās vērtība aug, ja slikti, tā krīt. Šajā spēlē tu ieguldi veselā nozarē ar biržas fondu (ETF), kas nopērk visus nozares lielākos uzņēmumus uzreiz. Akcijām vēsturiski ir augstākais ienesīgums, bet arī lielākās svārstības.',
+    infoStocksBody: 'Akcija ir daļa uzņēmumā: ja uzņēmumam iet labi, tās vērtība aug, ja slikti, tā krīt. Šajā spēlē Tu ieguldi veselā nozarē ar biržas fondu (ETF), kas nopērk visus nozares lielākos uzņēmumus uzreiz. Akcijām vēsturiski ir augstākais ienesīgums, bet arī lielākās svārstības.',
     infoBondsTitle: 'Kas ir obligācijas?',
-    infoBondsBody: 'Obligācija ir aizdevums valstij vai uzņēmumam. Pretī tu saņem fiksētus procentus (kuponu), un termiņa beigās atgūsti ieguldīto summu. Jo augstāks kupons, jo lielāku risku tirgus saskata aizņēmējā: valsts maksā mazāk, uzņēmumi vairāk.',
+    infoBondsBody: 'Obligācija ir aizdevums valstij vai uzņēmumam. Pretī Tu saņem fiksētus procentus (kuponu), un termiņa beigās atgūsti ieguldīto summu. Jo augstāks kupons, jo lielāku risku tirgus saskata aizņēmējā: valsts maksā mazāk, uzņēmumi vairāk.',
     infoFundsTitle: 'Kas ir fondi?',
-    infoFundsBody: 'Fonds apvieno daudzu ieguldītāju naudu un iegulda to desmitos vai simtos vērtspapīru uzreiz. Vienā pirkumā tu iegūsti gatavu, dažādotu portfeli, kuru pārvalda profesionāļi. SPY seko ASV akciju tirgum, Signet fonds iegulda Baltijas uzņēmumu obligācijās.',
+    infoFundsBody: 'Fonds apvieno daudzu ieguldītāju naudu un iegulda to desmitos vai simtos vērtspapīru uzreiz. Vienā pirkumā Tu iegūsti gatavu, dažādotu portfeli, kuru pārvalda profesionāļi. SPY seko ASV akciju tirgum, Signet fonds iegulda Baltijas uzņēmumu obligācijās.',
     infoClose: 'Sapratu',
 
     sectors: {
@@ -76,7 +75,7 @@ export const STRINGS = {
     freqAnnual: 'reizi gadā',
 
     breakdownTitle: 'Tavs sadalījums',
-    compareTitle: 'Ja tu būtu izvēlējies citādi',
+    compareTitle: 'Ja Tu būtu izvēlējies citādi',
 
     fundPanelTitle: 'Signet Baltic Bond Fund',
     fundPanelBody: 'Pirmais Baltijas uzņēmumu obligāciju fonds: stabils ceļš bez akciju svārstībām. Ieguldījums no 100 €.',
@@ -90,7 +89,6 @@ export const STRINGS = {
 
   en: {
     langName: 'EN',
-    tagline: 'The bank for ambitious people and their businesses',
     gameKicker: 'The investment game',
     attractTitle1: 'Where would you invest',
     attractTitle2: '€10,000?',

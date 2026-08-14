@@ -44,9 +44,18 @@ function QuizSeal() {
   )
 }
 
+// The colour variants a visitor can flip through on the start screen. Swatch
+// colours preview each theme's stage.
+export const THEMES = [
+  { id: 'forest', swatch: '#273631' },
+  { id: 'marble', swatch: '#282623' },
+  { id: 'green', swatch: '#41564f' },
+  { id: 'stone', swatch: '#f4f4f4' },
+]
+
 // Split-screen chooser: the 10k game on the left, the quiz on the right.
 // Tapping a half expands it across the whole stage, then the game fades in.
-export default function Attract({ onPlay }) {
+export default function Attract({ onPlay, theme, setTheme }) {
   const { t } = useT()
   const reduce = useReducedMotion()
   const [chosen, setChosen] = useState(null) // null | 'build' | 'quiz'
@@ -72,6 +81,20 @@ export default function Attract({ onPlay }) {
 
   return (
     <div className="split">
+      <div className="themedots" role="group" aria-label="Colour theme">
+        {THEMES.map((th) => (
+          <button
+            key={th.id}
+            className="themedots__dot"
+            style={{ background: th.swatch }}
+            aria-pressed={theme === th.id}
+            aria-label={th.id}
+            title={th.id}
+            onClick={() => setTheme(th.id)}
+          />
+        ))}
+      </div>
+
       <motion.button className="split__half split__half--game" onClick={() => pick('build')} {...half('build')}>
         <motion.span className="split__inner" {...content('build')}>
           <span className="kicker">{t('gameKicker')}</span>

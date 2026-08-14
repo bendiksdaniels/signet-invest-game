@@ -29,6 +29,7 @@ export default function App() {
   const [phase, setPhase] = useState('attract') // attract | build | quiz | result
   const [dir, setDir] = useState(1)
   const [alloc, setAlloc] = useState({})
+  const [theme, setTheme] = useState('forest') // colour variant, picked on attract
 
   const go = useCallback((next, d = 1) => {
     setDir(d)
@@ -57,10 +58,11 @@ export default function App() {
         <AnimatePresence>
           <motion.div
             key="result-view"
+            className={`theme-${theme}`}
             initial={reduce ? false : { x: '100%' }}
             animate={{ x: '0%' }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            style={{ minHeight: '100svh', background: '#1a231f' }}
+            style={{ minHeight: '100svh', background: 'var(--ink-900)' }}
           >
             <Result alloc={alloc} onPlayAgain={reset} />
           </motion.div>
@@ -71,7 +73,7 @@ export default function App() {
 
   const step =
     phase === 'attract' ? (
-      <Attract onPlay={(target) => go(target, 0)} />
+      <Attract onPlay={(target) => go(target, 0)} theme={theme} setTheme={setTheme} />
     ) : phase === 'quiz' ? (
       <Quiz onExit={reset} onPlaySplit={() => go('build', 1)} />
     ) : (
@@ -80,15 +82,15 @@ export default function App() {
 
   return (
     <LangContext.Provider value={ctx}>
-      <Shell phase={phase} dir={dir} sliding={landscape} step={step} onHome={reset} />
+      <Shell phase={phase} dir={dir} sliding={landscape} step={step} onHome={reset} theme={theme} />
     </LangContext.Provider>
   )
 }
 
-function Shell({ phase, dir, sliding, step, onHome }) {
+function Shell({ phase, dir, sliding, step, onHome, theme }) {
   const { t, lang, setLang } = useT()
   return (
-    <div className={sliding ? 'app app--dark app--fixed' : 'app app--dark'}>
+    <div className={(sliding ? 'app app--dark app--fixed' : 'app app--dark') + ` theme-${theme}`}>
       <header className="app__header">
         {phase === 'attract' ? (
           <span className="brand">
@@ -133,13 +135,7 @@ function Shell({ phase, dir, sliding, step, onHome }) {
 
       {/* Footer height is always reserved so the slide area never shifts. */}
       <footer className="app__footer">
-        {phase === 'attract' ? (
-          <span className="kicker" style={{ color: 'var(--text-on-dark-muted)', fontSize: 'var(--label-md)' }}>
-            {t('tagline')}
-          </span>
-        ) : (
-          <span className="footnote serif">{t('disclaimer')}</span>
-        )}
+        {phase !== 'attract' && <span className="footnote serif">{t('disclaimer')}</span>}
       </footer>
     </div>
   )
