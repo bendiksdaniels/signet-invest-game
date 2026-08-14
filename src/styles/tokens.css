@@ -1,9 +1,11 @@
-/* Design tokens — ported verbatim from the live Signet build (exact colours,
-   spacing, radii, shadows, easings) so the rebuild stays on-brand. Only the
-   three font variables are repointed from the unlicensed trial faces to free,
-   Baltic-complete substitutes (Space Grotesk ↔ Termina, Spectral ↔ Domaine). */
+/* Design tokens — Signet Bank 2026 brand update (brand/SignetBank_ColorCodes_
+   update_2026.pdf): Signet Gold #B27E54 + Signet Marble #282623 carried over;
+   new green family (Dark #273631 / Green #41564F / Light #8EA197), Signet
+   Stone #F4F4F4, Grey #7F7E7A, Signet Pink #D6B4B0, Neon Green #DEF970.
+   Typeface: Montserrat. Variable NAMES are unchanged so the layout CSS keeps
+   working; only values moved to the new palette. */
 :root {
-  /* gold ramp + accents */
+  /* gold ramp + accents (Signet Gold #B27E54) */
   --gold-100: #f3e7d8;
   --gold-200: #e7d2b9;
   --gold-300: #d8b48f;
@@ -17,55 +19,61 @@
   --notice: #b27e54;
   --notice-tint: #f3e7d8;
 
-  /* paper / surfaces (light side) */
-  --paper-000: #ffffff;
-  --paper-50: #faf7f2;
-  --paper-100: #f4efe7;
-  --paper-200: #e9e1d5;
-  --paper-300: #d8cdbd;
-  --paper-400: #b9ad9b;
-  --surface-page: #faf7f2;
-  --surface-card: #ffffff;
-  --surface-sunken: #f4efe7;
+  /* 2026 additions */
+  --neon: #def970;        /* Neon Green — the pop accent */
+  --neon-ink: #273631;    /* text on neon */
+  --pink: #d6b4b0;        /* Signet Pink */
+  --brand-grey: #7f7e7a;  /* Grey */
 
-  /* ink / surfaces (dark side) */
-  --ink-500: #6d655b;
-  --ink-600: #4a443d;
-  --ink-700: #34302b;
-  --ink-800: #282623;
-  --ink-900: #1c1a18;
-  --surface-dark: #282623;
-  --surface-dark-raised: #34302b;
-  --border-on-dark: #4a443d;
+  /* stone / surfaces (light side, from Signet Stone #F4F4F4) */
+  --paper-000: #ffffff;
+  --paper-50: #f4f4f4;
+  --paper-100: #ececec;
+  --paper-200: #dfe2df;
+  --paper-300: #c9cec9;
+  --paper-400: #a7ada7;
+  --surface-page: #f4f4f4;
+  --surface-card: #ffffff;
+  --surface-sunken: #ececec;
+
+  /* green-dark surfaces (dark side, from Dark Green #273631 / Green #41564F) */
+  --ink-500: #5c6f67;
+  --ink-600: #41564f;
+  --ink-700: #2f423b;
+  --ink-800: #273631;
+  --ink-900: #1a231f;
+  --surface-dark: #273631;
+  --surface-dark-raised: #314540;
+  --border-on-dark: #41564f;
 
   /* text */
-  --text-strong: #211f1c;
-  --text-body: #423d37;
-  --text-muted: #6d655b;
-  --text-faint: #8c8377;
-  --text-on-dark: #faf7f2;
-  --text-on-dark-muted: #b8aea0;
+  --text-strong: #282623;          /* Signet Marble */
+  --text-body: #3e4440;
+  --text-muted: #7f7e7a;           /* Grey */
+  --text-faint: #9a9d9a;
+  --text-on-dark: #f4f4f4;         /* Stone */
+  --text-on-dark-muted: #a3b5ab;   /* Light Green, muted */
 
   /* greys / borders */
-  --grey-400: #8c8377;
-  --grey-500: #6d655b;
-  --grey-700: #423d37;
-  --grey-900: #211f1c;
-  --border-subtle: #e9e1d5;
-  --border-strong: #d8cdbd;
+  --grey-400: #9a9d9a;
+  --grey-500: #7f7e7a;
+  --grey-700: #3e4440;
+  --grey-900: #282623;
+  --border-subtle: #dfe2df;
+  --border-strong: #c9cec9;
   --border-hair: 1px;
   --border-thick: 2px;
 
-  /* semantic */
-  --positive: #4f7a52;
-  --positive-tint: #e7efe6;
+  /* semantic (brand greens for gains; loss red is semantic, off-palette) */
+  --positive: #41564f;
+  --positive-tint: #e7ede9;
   --negative: #a23b32;
   --negative-tint: #f5e4e1;
 
-  /* fonts — repointed to licensed, Baltic-complete substitutes */
-  --font-ui: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk", system-ui, -apple-system, sans-serif;
-  --font-body: "Spectral", Georgia, "Times New Roman", serif;
+  /* fonts — Montserrat per the 2026 brand update */
+  --font-ui: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
 
   /* weights */
   --fw-thin: 100;
@@ -116,10 +124,10 @@
   --radius-lg: 10px; --radius-card: 4px; --radius-pill: 999px;
 
   /* shadows */
-  --shadow-xs: 0 1px 2px rgba(40, 38, 35, 0.06);
-  --shadow-sm: 0 2px 8px rgba(40, 38, 35, 0.08);
-  --shadow-md: 0 8px 24px rgba(40, 38, 35, 0.10);
-  --shadow-lg: 0 20px 48px rgba(40, 38, 35, 0.14);
+  --shadow-xs: 0 1px 2px rgba(26, 35, 31, 0.06);
+  --shadow-sm: 0 2px 8px rgba(26, 35, 31, 0.08);
+  --shadow-md: 0 8px 24px rgba(26, 35, 31, 0.10);
+  --shadow-lg: 0 20px 48px rgba(26, 35, 31, 0.14);
   --shadow-dark: 0 24px 60px rgba(0, 0, 0, 0.45);
 
   /* motion */
@@ -132,8 +140,8 @@
   /* containers + focus */
   --container-narrow: 760px;
   --container-max: 1240px;
-  --focus-ring: color-mix(in oklab, #b27e54 55%, transparent);
+  --focus-ring: rgba(178, 126, 84, 0.55);
 
-  /* warm radial that the dark screens sit on (matches the live hero glow) */
-  --hero-glow: radial-gradient(120% 90% at 50% 18%, #3a2c20 0%, #271d16 42%, #1b1410 100%);
+  /* deep green stage the dark screens sit on (2026 palette) */
+  --hero-glow: radial-gradient(120% 90% at 50% 18%, #2f423b 0%, #273631 42%, #1a231f 100%);
 }

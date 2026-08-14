@@ -34,7 +34,7 @@ function QuizSeal() {
         y="66"
         textAnchor="middle"
         fill="var(--accent-on-dark)"
-        fontFamily="Spectral, Georgia, serif"
+        fontFamily="Montserrat, system-ui, sans-serif"
         fontSize="52"
         fontWeight="600"
       >

@@ -25,15 +25,15 @@ svg { display: block; }
 :focus:not(:focus-visible) { outline: none; }
 
 /* semantic colours that read on the dark stage (tokens.css targets light),
-   plus a richer, deeper stage glow than the ported default */
+   plus a richer, deeper stage glow than the token default. 2026 palette:
+   deep green stage, gold warmth, neon pop. */
 :root {
-  --positive-on-dark: #8fbe94;
+  --positive-on-dark: #8ea197; /* Signet Light Green */
   --negative-on-dark: #de8d80;
-  /* static equivalent of tokens.css's color-mix focus ring (Safari <16.2) */
   --focus-ring: rgba(178, 126, 84, 0.55);
   --hero-glow:
-    radial-gradient(90% 60% at 50% 0%, rgba(178, 126, 84, 0.16) 0%, rgba(178, 126, 84, 0) 55%),
-    radial-gradient(140% 100% at 50% 14%, #443021 0%, #2b1f15 44%, #1a130d 80%, #120d09 100%);
+    radial-gradient(90% 60% at 50% 0%, rgba(142, 161, 151, 0.14) 0%, rgba(142, 161, 151, 0) 55%),
+    radial-gradient(140% 100% at 50% 14%, #33463f 0%, #273631 44%, #1c2621 80%, #141b18 100%);
 
   /* web-scale type: cap the kiosk-tuned fluid ramp at normal web sizes */
   --display-xl: clamp(38px, 3.6vw + 12px, 60px);
@@ -198,8 +198,8 @@ svg { display: block; }
   transition: background var(--dur-base) var(--ease-out);
 }
 /* each game gets its own faint room tone */
-.split__half--game { background: radial-gradient(70% 60% at 50% 45%, rgba(178, 126, 84, 0.10) 0%, rgba(178, 126, 84, 0) 70%); }
-.split__half--quiz { background: radial-gradient(70% 60% at 50% 45%, rgba(231, 210, 185, 0.07) 0%, rgba(231, 210, 185, 0) 70%); }
+.split__half--game { background: radial-gradient(70% 60% at 50% 45%, rgba(222, 249, 112, 0.05) 0%, rgba(222, 249, 112, 0) 70%); }
+.split__half--quiz { background: radial-gradient(70% 60% at 50% 45%, rgba(178, 126, 84, 0.09) 0%, rgba(178, 126, 84, 0) 70%); }
 .split__half:hover { background: rgba(255, 255, 255, 0.045); }
 .split__half:hover .split__cta { border-color: var(--accent); color: var(--accent-on-dark); }
 .split__divider { flex: 0 0 auto; width: 1px; background: var(--border-on-dark); margin: clamp(24px, 6vh, 64px) 0; }
@@ -271,7 +271,7 @@ svg { display: block; }
   width: 100%; min-height: 60px;
   padding: 14px 20px;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: linear-gradient(180deg, #38322a 0%, #2f2a23 100%);
+  background: linear-gradient(180deg, #34483f 0%, #2c3d36 100%);
   border: var(--border-hair) solid var(--border-on-dark);
   border-radius: var(--radius-md);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -280,9 +280,9 @@ svg { display: block; }
               background var(--dur-fast) var(--ease-out),
               opacity var(--dur-base) var(--ease-out);
 }
-.qopt:hover { border-color: var(--accent); background: linear-gradient(180deg, #3f382f 0%, #363028 100%); }
-.qopt.is-correct { border-color: var(--positive-on-dark); background: #3e4835; background: color-mix(in oklab, var(--positive-on-dark) 16%, var(--surface-dark-raised)); }
-.qopt.is-wrong { border-color: var(--negative-on-dark); background: #473730; background: color-mix(in oklab, var(--negative-on-dark) 14%, var(--surface-dark-raised)); }
+.qopt:hover { border-color: var(--accent); background: linear-gradient(180deg, #3b5148 0%, #33463f 100%); }
+.qopt.is-correct { border-color: var(--neon); background: #40544e; background: color-mix(in oklab, var(--positive-on-dark) 16%, var(--surface-dark-raised)); }
+.qopt.is-wrong { border-color: var(--negative-on-dark); background: #494f49; background: color-mix(in oklab, var(--negative-on-dark) 14%, var(--surface-dark-raised)); }
 .qopt.is-off { opacity: 0.45; }
 .quiz__factwrap { min-height: 3.2em; display: flex; align-items: flex-start; }
 .quiz__fact {
@@ -328,7 +328,7 @@ svg { display: block; }
   font-size: var(--display-sm); line-height: 1; color: var(--text-on-dark);
   transition: color var(--dur-base);
 }
-.build__left b.is-done { color: var(--accent-on-dark); }
+.build__left b.is-done { color: var(--neon); }
 .build__left span { font-size: var(--label-lg); letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--text-on-dark-muted); }
 
 /* the allocation bar: one segment per holding, coloured by asset class */
@@ -339,9 +339,9 @@ svg { display: block; }
   border: var(--border-hair) solid var(--border-on-dark);
 }
 .allocbar__seg { height: 100%; transition: width var(--dur-base) var(--ease-out); }
-.allocbar__seg + .allocbar__seg { box-shadow: -1px 0 0 rgba(27, 20, 16, 0.6); }
-.is-stocks { background: var(--accent); }
-.is-bonds { background: var(--gold-200); }
+.allocbar__seg + .allocbar__seg { box-shadow: -1px 0 0 rgba(20, 27, 24, 0.6); }
+.is-stocks { background: var(--neon); }
+.is-bonds { background: var(--accent); }
 .is-funds { background: var(--paper-50); }
 
 /* three columns of asset cards */
@@ -365,7 +365,7 @@ svg { display: block; }
 .modal-scrim {
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(22, 16, 11, 0.66);
+  background: rgba(16, 22, 19, 0.66);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   padding: var(--gutter);
@@ -388,7 +388,7 @@ svg { display: block; }
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   width: 100%; min-height: 64px;
   padding: 10px 14px;
-  background: linear-gradient(180deg, #38322a 0%, #2f2a23 100%);
+  background: linear-gradient(180deg, #34483f 0%, #2c3d36 100%);
   border: var(--border-hair) solid var(--border-on-dark);
   border-radius: var(--radius-md);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -398,9 +398,9 @@ svg { display: block; }
               transform var(--dur-fast) var(--ease-out),
               opacity var(--dur-fast) var(--ease-out);
 }
-.acard:hover { border-color: var(--accent); background: linear-gradient(180deg, #3f382f 0%, #363028 100%); }
+.acard:hover { border-color: var(--accent); background: linear-gradient(180deg, #3b5148 0%, #33463f 100%); }
 .acard:active { transform: scale(0.99); }
-.acard--on { border-color: var(--accent); background: #42362a; background: color-mix(in oklab, var(--accent) 14%, var(--surface-dark-raised)); }
+.acard--on { border-color: var(--accent); background: #434d43; background: color-mix(in oklab, var(--accent) 14%, var(--surface-dark-raised)); }
 .acard--dim { opacity: 0.55; }
 .acard__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .acard__info b { font-family: var(--font-display); font-weight: var(--fw-demi); font-size: var(--body-lg); line-height: var(--lh-snug); }
@@ -470,15 +470,16 @@ svg { display: block; }
   padding: 6px 14px; border-radius: var(--radius-pill);
   font-family: var(--font-display); font-weight: var(--fw-demi); font-size: var(--heading-lg);
 }
-.retbadge.is-pos { color: var(--positive-on-dark); border: var(--border-thick) solid rgba(143, 190, 148, 0.45); border-color: color-mix(in oklab, var(--positive-on-dark) 45%, transparent); }
+.retbadge.is-pos { color: var(--neon); border: var(--border-thick) solid rgba(222, 249, 112, 0.4); border-color: color-mix(in oklab, var(--neon) 40%, transparent); }
 .retbadge.is-neg { color: var(--negative-on-dark); border: var(--border-thick) solid rgba(222, 141, 128, 0.45); border-color: color-mix(in oklab, var(--negative-on-dark) 45%, transparent); }
 
-/* the money chart: fills whatever height the hero has left over */
+/* the money chart: fills whatever height the hero has left over.
+   The money line is Neon Green — the 2026 pop colour. */
 .result__chartwrap { flex: 1 1 auto; min-height: 180px; margin-top: clamp(8px, 1.6vh, 18px); }
 .moneychart { width: 100%; height: 100%; min-height: 0; min-width: 0; }
-.mc-main { fill: none; stroke: var(--accent-on-dark); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-.mc-bench { fill: none; stroke: var(--gold-200); stroke-width: 1.8; stroke-dasharray: 5 6; stroke-linecap: round; }
-.mc-dot { fill: var(--accent-on-dark); stroke: #1b1410; stroke-width: 2.5; }
+.mc-main { fill: none; stroke: var(--neon); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.mc-bench { fill: none; stroke: var(--gold-300); stroke-width: 1.8; stroke-dasharray: 5 6; stroke-linecap: round; }
+.mc-dot { fill: var(--neon); stroke: #1a231f; stroke-width: 2.5; }
 .mc-base { stroke: var(--border-on-dark); stroke-width: 1; stroke-dasharray: 2 5; }
 .mc-tick { stroke: var(--border-on-dark); stroke-width: 1; }
 .mc-axis { fill: var(--text-on-dark-muted); font-size: 15px; font-family: var(--font-ui); }
@@ -505,7 +506,8 @@ svg { display: block; }
   font-size: var(--body-sm);
 }
 .breakdown__dot { width: 10px; height: 10px; border-radius: 3px; }
-.breakdown__dot.is-bonds { border: 1px solid var(--gold-400); }
+.breakdown__dot.is-stocks { border: 1px solid #c3d96a; }
+.breakdown__dot.is-bonds { border: 1px solid var(--gold-600); }
 .breakdown__dot.is-funds { border: 1px solid var(--border-strong); }
 .breakdown__label { font-weight: var(--fw-medium); line-height: var(--lh-snug); }
 .breakdown__alloc { color: var(--text-muted); }

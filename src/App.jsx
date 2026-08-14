@@ -60,7 +60,7 @@ export default function App() {
             initial={reduce ? false : { x: '100%' }}
             animate={{ x: '0%' }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            style={{ minHeight: '100svh', background: '#1b1410' }}
+            style={{ minHeight: '100svh', background: '#1a231f' }}
           >
             <Result alloc={alloc} onPlayAgain={reset} />
           </motion.div>

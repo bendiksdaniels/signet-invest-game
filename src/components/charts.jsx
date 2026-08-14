@@ -83,8 +83,8 @@ export function MoneyChart({ values, months, lang, kind = 'line', benchmark = nu
     <svg className="moneychart" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet" role="img">
       <defs>
         <linearGradient id="mc-area" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--neon)" stopOpacity="0.20" />
+          <stop offset="100%" stopColor="var(--neon)" stopOpacity="0" />
         </linearGradient>
       </defs>
 
