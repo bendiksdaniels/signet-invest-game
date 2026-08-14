@@ -29,6 +29,8 @@ svg { display: block; }
 :root {
   --positive-on-dark: #8fbe94;
   --negative-on-dark: #de8d80;
+  /* static equivalent of tokens.css's color-mix focus ring (Safari <16.2) */
+  --focus-ring: rgba(178, 126, 84, 0.55);
   --hero-glow:
     radial-gradient(90% 60% at 50% 0%, rgba(178, 126, 84, 0.16) 0%, rgba(178, 126, 84, 0) 55%),
     radial-gradient(140% 100% at 50% 14%, #443021 0%, #2b1f15 44%, #1a130d 80%, #120d09 100%);
@@ -156,14 +158,21 @@ svg { display: block; }
 .dots i { width: 8px; height: 8px; border-radius: 999px; background: var(--border-on-dark); transition: all var(--dur-base) var(--ease-out); }
 .dots i.on { width: 26px; background: var(--accent); }
 
-/* ---- center stage ------------------------------------------------------- */
+/* ---- center stage -------------------------------------------------------
+   flex-start + margin-block:auto on the content (NOT justify-content:center):
+   centered overflow spills out of the scrollable range in both directions and
+   makes the bottom nav unreachable on short windows. Auto margins center when
+   there is room and collapse to 0 when there is not. */
 .stage {
   flex: 1 1 auto; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
+  align-items: center; justify-content: flex-start; text-align: center;
   gap: clamp(16px, 3vh, 28px);
   padding: var(--section-y) 0;
   min-height: 0;
 }
+.pickstage, .quiz { margin-block: auto; }
+/* restore the horizontal gutter that .stage's shorthand was cancelling */
+.stage.stage--abs { padding-inline: var(--gutter); }
 .measure { max-width: var(--container-narrow); margin-inline: auto; }
 
 .ambient { width: 100%; height: auto; }
@@ -225,9 +234,10 @@ svg { display: block; }
 }
 .split__cta { margin-top: clamp(2px, 0.8vh, 8px); }
 
-@media (max-width: 900px) {
+@media (max-width: 899.98px), (orientation: portrait) {
   /* stacked: each half takes its natural height and the page scrolls; never
-     clip (overflow:hidden on a squeezed half was eating the kicker + CTA) */
+     clip (overflow:hidden on a squeezed half was eating the kicker + CTA).
+     Portrait is included so a tall-but-wide window matches the JS shell. */
   .split { flex-direction: column; }
   .split__half { flex: 0 0 auto; overflow: visible; padding: clamp(20px, 4vh, 32px) 12px; }
   .split__inner { max-width: 100%; }
@@ -245,11 +255,11 @@ svg { display: block; }
   width: 100%;
   max-width: 820px;
   margin-inline: auto;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: clamp(12px, 2vh, 20px);
   min-height: 0;
   text-align: center;
@@ -271,8 +281,8 @@ svg { display: block; }
               opacity var(--dur-base) var(--ease-out);
 }
 .qopt:hover { border-color: var(--accent); background: linear-gradient(180deg, #3f382f 0%, #363028 100%); }
-.qopt.is-correct { border-color: var(--positive-on-dark); background: color-mix(in oklab, var(--positive-on-dark) 16%, var(--surface-dark-raised)); }
-.qopt.is-wrong { border-color: var(--negative-on-dark); background: color-mix(in oklab, var(--negative-on-dark) 14%, var(--surface-dark-raised)); }
+.qopt.is-correct { border-color: var(--positive-on-dark); background: #3e4835; background: color-mix(in oklab, var(--positive-on-dark) 16%, var(--surface-dark-raised)); }
+.qopt.is-wrong { border-color: var(--negative-on-dark); background: #473730; background: color-mix(in oklab, var(--negative-on-dark) 14%, var(--surface-dark-raised)); }
 .qopt.is-off { opacity: 0.45; }
 .quiz__factwrap { min-height: 3.2em; display: flex; align-items: flex-start; }
 .quiz__fact {
@@ -298,10 +308,10 @@ svg { display: block; }
   width: 100%;
   max-width: 1190px;
   margin-inline: auto;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: clamp(14px, 2.2vh, 24px);
   min-height: 0;
   text-align: left;
@@ -356,6 +366,7 @@ svg { display: block; }
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
   background: rgba(22, 16, 11, 0.66);
+  -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   padding: var(--gutter);
 }
@@ -389,7 +400,7 @@ svg { display: block; }
 }
 .acard:hover { border-color: var(--accent); background: linear-gradient(180deg, #3f382f 0%, #363028 100%); }
 .acard:active { transform: scale(0.99); }
-.acard--on { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 14%, var(--surface-dark-raised)); }
+.acard--on { border-color: var(--accent); background: #42362a; background: color-mix(in oklab, var(--accent) 14%, var(--surface-dark-raised)); }
 .acard--dim { opacity: 0.55; }
 .acard__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .acard__info b { font-family: var(--font-display); font-weight: var(--fw-demi); font-size: var(--body-lg); line-height: var(--lh-snug); }
@@ -459,12 +470,12 @@ svg { display: block; }
   padding: 6px 14px; border-radius: var(--radius-pill);
   font-family: var(--font-display); font-weight: var(--fw-demi); font-size: var(--heading-lg);
 }
-.retbadge.is-pos { color: var(--positive-on-dark); border: var(--border-thick) solid color-mix(in oklab, var(--positive-on-dark) 45%, transparent); }
-.retbadge.is-neg { color: var(--negative-on-dark); border: var(--border-thick) solid color-mix(in oklab, var(--negative-on-dark) 45%, transparent); }
+.retbadge.is-pos { color: var(--positive-on-dark); border: var(--border-thick) solid rgba(143, 190, 148, 0.45); border-color: color-mix(in oklab, var(--positive-on-dark) 45%, transparent); }
+.retbadge.is-neg { color: var(--negative-on-dark); border: var(--border-thick) solid rgba(222, 141, 128, 0.45); border-color: color-mix(in oklab, var(--negative-on-dark) 45%, transparent); }
 
 /* the money chart: fills whatever height the hero has left over */
 .result__chartwrap { flex: 1 1 auto; min-height: 180px; margin-top: clamp(8px, 1.6vh, 18px); }
-.moneychart { width: 100%; height: 100%; }
+.moneychart { width: 100%; height: 100%; min-height: 0; min-width: 0; }
 .mc-main { fill: none; stroke: var(--accent-on-dark); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 .mc-bench { fill: none; stroke: var(--gold-200); stroke-width: 1.8; stroke-dasharray: 5 6; stroke-linecap: round; }
 .mc-dot { fill: var(--accent-on-dark); stroke: #1b1410; stroke-width: 2.5; }
@@ -543,8 +554,8 @@ svg { display: block; }
 
 .result__disclaimer { font-style: italic; font-size: var(--label-md); color: var(--text-muted); line-height: var(--lh-snug); }
 
-/* ---- phones: stack the columns, let the page scroll --------------------- */
-@media (max-width: 900px) {
+/* ---- phones + portrait: stack the columns, let the page scroll ---------- */
+@media (max-width: 899.98px), (orientation: portrait) {
   .build__cols { grid-template-columns: 1fr; }
   .build__head { flex-direction: column; align-items: flex-start; gap: 10px; }
   .build__left { align-items: flex-start; }
@@ -576,6 +587,14 @@ svg { display: block; }
   .split__sub { min-height: 2.5em; }
   .quiz__q { font-size: var(--heading-lg); }
   .qopt { min-height: 52px; padding: 10px 16px; }
+}
+
+/* very short landscape windows: let the result's dark panel scroll instead of
+   clipping (its overflow:hidden plus a centered hero would hide the chart) */
+@media (min-width: 900px) and (orientation: landscape) and (max-height: 640px) {
+  .result__left { overflow-y: auto; }
+  .result__hero { min-height: max-content; }
+  .result__chartwrap { min-height: 150px; }
 }
 
 /* accessibility: respect reduced motion */

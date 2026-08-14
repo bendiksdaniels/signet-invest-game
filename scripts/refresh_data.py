@@ -62,7 +62,17 @@ def month_label(ts):
 
 
 def fetch_stocks():
-    fx = {month_label(t): v for t, v in yahoo("EURUSD=X")}
+    # One value per month label, later bars win (Yahoo emits both the month-start
+    # bar and a current partial bar for the running month).
+    fx = {}
+    for t, v in yahoo("EURUSD=X"):
+        fx[month_label(t)] = v
+    fx_months = sorted(fx)
+
+    def fx_for(m):
+        past = [x for x in fx_months if x <= m]
+        return fx[past[-1]] if past else fx[fx_months[0]]
+
     out = {}
     for sym, name in TICKERS.items():
         for attempt in range(3):
@@ -73,13 +83,21 @@ def fetch_stocks():
                 if attempt == 2:
                     sys.exit(f"FAIL {sym}: {e}")
                 time.sleep(2)
-        series = [(month_label(t), usd / fx[month_label(t)]) for t, usd in pts
-                  if month_label(t) in fx]
+        by_month = {}
+        for t, usd in pts:
+            by_month[month_label(t)] = usd
+        months = sorted(by_month)
+        series = [(m, by_month[m] / fx_for(m)) for m in months]
         base = series[0][1]
         out[sym] = {"name": name,
                     "months": [m for m, _ in series],
                     "values": [round(10000 * v / base, 2) for _, v in series]}
         time.sleep(0.4)
+
+    grids = {tuple(d["months"]) for d in out.values()}
+    assert len(grids) == 1, f"tickers disagree on the month grid: {grids}"
+    ms = out["SPY"]["months"]
+    assert len(ms) == len(set(ms)), f"duplicate month labels: {ms}"
     return out
 
 
