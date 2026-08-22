@@ -88,15 +88,18 @@ Window: 2025-08 -> 2026-08 (13 monthly points, each series normalized to
   bar) - `LeadsPanel.jsx` shows the CSV (`timestamp,email,lang,final_eur,
   return_pct,allocation`), with Copy / Download CSV / Delete all; Close clears
   the hash. Works in any phase, also over the result.
-- **Optional server collector:** set the GitHub repo variable `LEADS_ENDPOINT`
-  (deploy.yml passes it as `VITE_LEADS_ENDPOINT` at build time; locally
-  `VITE_LEADS_ENDPOINT=https://... npm run build`). Each lead is then also
-  POSTed as a text/plain JSON body (no CORS preflight, Apps-Script friendly);
-  unsent ones wait in `signet-invest-leads-queue` and are retried on load, on
-  every new lead and when the panel opens. NOT configured yet, so today leads
-  live only on the device that played - decide where they should land (a small
-  endpoint on the dbautomatizacijas gateway, or a Google Apps Script) before an
-  event.
+- **Server collector (LIVE since 22.08):** the repo variable `LEADS_ENDPOINT` =
+  `https://leads.dbautomatizacijas.com/api/leads` (deploy.yml bakes it in as
+  `VITE_LEADS_ENDPOINT`; locally `VITE_LEADS_ENDPOINT=... npm run build`). Every
+  lead is POSTed there as a text/plain JSON body (no CORS preflight); unsent
+  ones wait in `signet-invest-leads-queue` and are retried on load, on every
+  new lead and when the panel opens, and the server dedupes on (ts, e-mail).
+  The collector is `~/signet-leads` (Rust, VPS :8803, Cloudflare Access bypass
+  on the POST path only): the list + CSV live at
+  https://leads.dbautomatizacijas.com/ (Access login, Daniel + signetbank.com),
+  and every morning 07:45 Riga the new e-mails are mailed to
+  bendiksdaniels02@gmail.com (`LEADS_EMAIL_TO` in `/opt/signet/env/leads.env`).
+  Verified end to end from the live GitHub Pages origin on 22.08.
 - Consent copy is `gateConsent` in `i18n.js`; no privacy-policy link yet.
 
 ## Design decisions
@@ -169,8 +172,6 @@ Window: 2025-08 -> 2026-08 (13 monthly points, each series normalized to
 - Old copy ("Fiksētie procenti", "fixed interest") no longer in the bundle.
 
 ## TODO / next steps
-- Decide where leads land (gateway endpoint or Apps Script) and set the
-  `LEADS_ENDPOINT` repo variable; until then export via `#leads` per device.
 - Add Signet's privacy-policy link next to the consent line if compliance asks.
 - Create a GitHub repo + Pages deploy if a public URL is wanted (workflow file
   is ready; the singlefile build also just works from a USB stick).

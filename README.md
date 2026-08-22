@@ -24,9 +24,10 @@ python3 scripts/refresh_data.py --cache src/data/performance.json
 
 ## Leads
 
-The e-mail gate before the result stores every lead on the device (localStorage).
-Open `<url>#leads` to copy or download them as CSV. To also send them to a
-server, set the `LEADS_ENDPOINT` repository variable (baked in as
-`VITE_LEADS_ENDPOINT` at build time).
+The e-mail gate before the result posts every lead to the collector named by the
+`LEADS_ENDPOINT` repository variable (baked in as `VITE_LEADS_ENDPOINT` at build
+time; today `https://leads.dbautomatizacijas.com/api/leads`, see `~/signet-leads`)
+and keeps a copy on the device: open `<url>#leads` to copy or download that copy
+as CSV. Offline posts are queued and retried.
 
 Read `HANDOFF.md` for the full state snapshot, data sources and gotchas.

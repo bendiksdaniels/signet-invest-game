@@ -7,8 +7,8 @@
 - [x] leads.js: localStorage store, CSV export panel at #leads, optional VITE_LEADS_ENDPOINT POST queue
 - [x] Build + Playwright checks (gate validation, submit, skip, Storent staircase, #leads panel)
 - [x] HANDOFF.md / README.md updated
-- [ ] Decide where leads land (server endpoint) and set the LEADS_ENDPOINT repo variable
+- [x] Leads land on the server: ~/signet-leads (Rust, :8803) behind leads.dbautomatizacijas.com, LEADS_ENDPOINT repo variable set, digest mail 07:45 Riga
 
 ## Review
-Everything asked for is live in the build; the only open decision is the lead
-destination, which needs Daniel's call (gateway endpoint vs Apps Script).
+Everything is live: the gate, Storent, the coupon wording, and the server
+collector with the morning digest. Verified end to end from the live page.
