@@ -1,12 +1,16 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { LangContext, useT } from './i18n.js'
 import { useIdleReset, useMediaQuery } from './lib/hooks.js'
+import { portfolioSeries, TOTAL } from './lib/gamedata.js'
+import { flushQueue, saveLead } from './lib/leads.js'
 import { Logo, LangToggle } from './components/ui.jsx'
 import Attract from './components/Attract.jsx'
 import Builder from './components/Builder.jsx'
 import Quiz from './components/Quiz.jsx'
 import Result from './components/Result.jsx'
+import EmailGate from './components/EmailGate.jsx'
+import LeadsPanel from './components/LeadsPanel.jsx'
 
 // Horizontal carousel slide between screens. dir 1 = forward, -1 = back,
 // dir 0 = crossfade (used after the attract halves' expand animation, which
@@ -26,7 +30,7 @@ const SLIDE = {
 
 export default function App() {
   const [lang, setLang] = useState('lv')
-  const [phase, setPhase] = useState('attract') // attract | build | quiz | result
+  const [phase, setPhase] = useState('attract') // attract | build | quiz | email | result
   const [dir, setDir] = useState(1)
   const [alloc, setAlloc] = useState({})
   const [theme, setTheme] = useState('forest') // colour variant, picked on attract
@@ -44,6 +48,31 @@ export default function App() {
 
   // Kiosk: after inactivity, return to the attract loop for the next person.
   useIdleReset(reset, 75000, phase !== 'attract')
+
+  // The e-mail gate: store the lead with the outcome it is about to see.
+  const submitLead = useCallback(
+    (email) => {
+      const values = portfolioSeries(alloc)
+      const final = values[values.length - 1]
+      saveLead({ email, lang, alloc, final: Math.round(final), ret: +((final / TOTAL - 1) * 100).toFixed(1) })
+      go('result', 1)
+    },
+    [alloc, lang, go]
+  )
+
+  // Staff export of the collected e-mails: <url>#leads opens the panel.
+  const [leadsOpen, setLeadsOpen] = useState(() => window.location.hash === '#leads')
+  useEffect(() => {
+    const onHash = () => setLeadsOpen(window.location.hash === '#leads')
+    window.addEventListener('hashchange', onHash)
+    flushQueue()
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+  const closeLeads = useCallback(() => {
+    window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    setLeadsOpen(false)
+  }, [])
+  const leadsPanel = leadsOpen ? <LeadsPanel onClose={closeLeads} /> : null
 
   const ctx = useMemo(() => ({ lang, setLang }), [lang])
   // Landscape: the app is one viewport-filling screen (the slide carousel needs
@@ -67,6 +96,7 @@ export default function App() {
             <Result alloc={alloc} onPlayAgain={reset} />
           </motion.div>
         </AnimatePresence>
+        {leadsPanel}
       </LangContext.Provider>
     )
   }
@@ -76,13 +106,16 @@ export default function App() {
       <Attract onPlay={(target) => go(target, 0)} theme={theme} setTheme={setTheme} />
     ) : phase === 'quiz' ? (
       <Quiz onExit={reset} onPlaySplit={() => go('build', 1)} />
+    ) : phase === 'email' ? (
+      <EmailGate onSubmit={submitLead} onSkip={() => go('result', 1)} onBack={() => go('build', -1)} />
     ) : (
-      <Builder alloc={alloc} onChange={setAlloc} onDone={() => go('result', 1)} onBack={reset} />
+      <Builder alloc={alloc} onChange={setAlloc} onDone={() => go('email', 1)} onBack={reset} />
     )
 
   return (
     <LangContext.Provider value={ctx}>
       <Shell phase={phase} dir={dir} sliding={landscape} step={step} onHome={reset} theme={theme} />
+      {leadsPanel}
     </LangContext.Provider>
   )
 }

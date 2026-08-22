@@ -235,7 +235,7 @@ svg { display: block; }
   padding: var(--section-y) 0;
   min-height: 0;
 }
-.pickstage, .quiz { margin-block: auto; }
+.pickstage, .quiz, .gate { margin-block: auto; }
 /* restore the horizontal gutter that .stage's shorthand was cancelling */
 .stage.stage--abs { padding-inline: var(--gutter); }
 .measure { max-width: var(--container-narrow); margin-inline: auto; }
@@ -390,6 +390,63 @@ svg { display: block; }
 .quiz__band { font-size: var(--display-sm); }
 .quiz__outro { font-style: italic; font-size: var(--body-xl); color: var(--text-on-dark-muted); max-width: 44ch; line-height: var(--lh-snug); }
 .quiz__endnav { display: flex; gap: 14px; margin-top: clamp(6px, 1.6vh, 14px); flex-wrap: wrap; justify-content: center; }
+
+/* ---- the e-mail gate before the result ---------------------------------- */
+.gate {
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(12px, 2vh, 20px);
+  min-height: 0;
+  text-align: center;
+}
+.gate__title { font-size: var(--display-md); }
+.gate__sub { font-style: italic; font-size: var(--body-lg); line-height: var(--lh-snug); color: var(--text-on-dark-muted); max-width: 44ch; }
+.field { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.field__label { font-size: var(--label-lg); font-weight: var(--fw-demi); letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--text-on-dark-muted); }
+.field input[type="email"] {
+  width: 100%; min-height: 58px; padding: 12px 18px;
+  background: linear-gradient(180deg, var(--card-a) 0%, var(--card-b) 100%);
+  border: var(--border-hair) solid var(--border-on-dark);
+  border-radius: var(--radius-md);
+  color: var(--text-on-dark);
+  font-size: var(--body-xl); font-weight: var(--fw-medium);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 1px 3px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: none; appearance: none;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.field input[type="email"]::placeholder { color: var(--text-on-dark-muted); opacity: 0.6; }
+.field input[type="email"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--focus-ring); }
+.field input[type="email"].is-invalid { border-color: var(--negative-on-dark); }
+.gate__error { min-height: 1.4em; font-size: var(--body-sm); color: var(--negative-on-dark); }
+.consent { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-size: var(--body-sm); line-height: var(--lh-snug); color: var(--text-on-dark-muted); }
+.consent input { flex: 0 0 auto; width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--accent); cursor: pointer; }
+.gate .picknav { width: 100%; grid-template-columns: auto 1fr auto; }
+.gate .picknav .btn { white-space: nowrap; }
+.gate .btn:disabled { opacity: 0.5; cursor: default; }
+.gate__skip { border-color: transparent; color: var(--text-on-dark-muted); }
+.gate__skip:hover { border-color: var(--border-on-dark); color: var(--text-on-dark); }
+
+/* ---- staff export of collected e-mails (<url>#leads) --------------------- */
+.leads { width: min(720px, 94%); }
+.leads p { font-size: var(--body-md); color: var(--text-muted); }
+.leads__csv {
+  max-height: 40vh; overflow: auto; padding: 12px 14px;
+  border-radius: var(--radius-sm); background: var(--surface-sunken);
+  border: var(--border-hair) solid var(--border-subtle);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.5;
+  white-space: pre; color: var(--text-body);
+}
+.leads__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.leads .btn { align-self: auto; margin-top: 0; }
+.leads .btn--ghost { border-color: var(--border-strong); color: var(--text-strong); }
+.leads .btn--ghost:hover { border-color: var(--accent); color: var(--accent-hover); }
+.leads .btn:disabled { opacity: 0.45; cursor: default; }
 
 /* ---- attract ------------------------------------------------------------ */
 .measure--wide { max-width: 1000px; }
@@ -654,10 +711,13 @@ svg { display: block; }
   .build__left { align-items: flex-start; }
   .picktitle { font-size: var(--display-sm); }
   .pickstage { justify-content: flex-start; }
-  .picknav { grid-template-columns: 1fr; }
+  .picknav, .gate .picknav { grid-template-columns: 1fr; }
   .picknav > .btn--ghost:first-child, .picknav__actions { justify-self: stretch; }
   .picknav__actions { display: flex; }
   .picknav__actions .btn--primary { flex: 1; }
+  /* the gate's two actions stack, primary on top, nothing wider than the column */
+  .gate .picknav__actions { flex-direction: column-reverse; }
+  .gate .picknav .btn { white-space: normal; }
   .result__strip { flex-wrap: wrap; gap: 18px 28px; }
 }
 
@@ -680,6 +740,8 @@ svg { display: block; }
   .split__sub { min-height: 2.5em; }
   .quiz__q { font-size: var(--heading-lg); }
   .qopt { min-height: 52px; padding: 10px 16px; }
+  .gate__title { font-size: var(--display-sm); }
+  .field input[type="email"] { min-height: 50px; }
 }
 
 /* very short landscape windows: let the result's dark panel scroll instead of

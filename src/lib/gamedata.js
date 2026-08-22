@@ -12,9 +12,11 @@ export const SECTORS = [
   { id: 'XLC', key: 'media', hint: 'Meta · Netflix · Disney' },
 ]
 
-export const CORP_BONDS = ['DELFIN', 'ELEVING', 'GRENARDI']
+export const CORP_BONDS = ['DELFIN', 'ELEVING', 'GRENARDI', 'STORENT']
 export const BOND_IDS = ['GOVT', ...CORP_BONDS]
-export const BOND_FREQ = { GOVT: 'freqAnnual', DELFIN: 'freqMonthly', ELEVING: 'freqSemi', GRENARDI: 'freqAnnual' }
+export const BOND_FREQ = {
+  GOVT: 'freqAnnual', DELFIN: 'freqMonthly', ELEVING: 'freqSemi', GRENARDI: 'freqAnnual', STORENT: 'freqQuarterly',
+}
 export const FUND_IDS = ['SPY', 'SIGNET']
 
 // Column order is also the allocation bar's segment order.

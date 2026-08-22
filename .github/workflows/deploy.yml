@@ -25,6 +25,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # optional lead collector (repo variable); empty = leads stay on the device
+          VITE_LEADS_ENDPOINT: ${{ vars.LEADS_ENDPOINT }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

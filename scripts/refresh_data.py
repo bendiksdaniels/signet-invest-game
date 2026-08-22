@@ -15,6 +15,9 @@ Signet Baltic Bond Fund: NAV interpolated between published anchors
 Usage:
   python3 scripts/refresh_data.py                # fetch live from Yahoo
   python3 scripts/refresh_data.py --cache F.json # reuse a cached fetch
+  python3 scripts/refresh_data.py --cache src/data/performance.json
+      # re-derive bonds + fund from the stock series already in the file
+      # (e.g. after adding a bond); keeps the original fetch date
 """
 import argparse, datetime as dt, json, math, os, sys, time, urllib.request
 
@@ -32,13 +35,16 @@ TICKERS = {
 
 # Real issues: DelfinGroup 09.2025 public issue (10%, monthly coupon);
 # Eleving Group 2025/2030 eurobonds (9.5%, semi-annual); Grenardi Group
-# 05.2026 subordinated (10%, annual); Latvia 10Y government yield at
-# purchase, ECB series IRS.M.LV (2025-08: 3.17 -> 3.2).
+# 05.2026 subordinated (10%, annual); Storent Europe notes programme
+# 2026/2030, 1st tranche 17.09.2026 (10%, quarterly, per the Nasdaq CSD
+# filing); Latvia 10Y government yield at purchase, ECB series IRS.M.LV
+# (2025-08: 3.17 -> 3.2).
 BONDS = {
     "GOVT": {"name": None, "coupon": 3.2, "freq": 1},
     "DELFIN": {"name": "DelfinGroup", "coupon": 10.0, "freq": 12},
     "ELEVING": {"name": "Eleving Group", "coupon": 9.5, "freq": 2},
     "GRENARDI": {"name": "Grenardi Group", "coupon": 10.0, "freq": 1},
+    "STORENT": {"name": "Storent Europe", "coupon": 10.0, "freq": 4},
 }
 
 FUND_ANCHORS = [("2025-05-09", 100.0), ("2026-05-09", 107.6), ("2026-08-13", 109.815)]
@@ -129,13 +135,23 @@ def fund_series(months):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--cache", help="path to a cached fetch (fetch_market_data.py output)")
+    ap.add_argument("--cache", help="path to a cached fetch (fetch_market_data.py output) "
+                                    "or a previous performance.json")
     args = ap.parse_args()
 
+    fetched = dt.date.today().isoformat()
     if args.cache:
         raw = json.load(open(args.cache))
-        stocks = {sym: {"name": d["name"], "months": d["months"], "values": d["values"]}
-                  for sym, d in raw.items()}
+        if "instruments" in raw and "meta" in raw:
+            # a previous performance.json: stock series + their fetch date
+            ms = raw["meta"]["months"]
+            fetched = raw["meta"].get("fetched", fetched)
+            stocks = {sym: {"name": raw["instruments"][sym]["name"], "months": ms,
+                            "values": raw["instruments"][sym]["values"]}
+                      for sym in TICKERS}
+        else:
+            stocks = {sym: {"name": d["name"], "months": d["months"], "values": d["values"]}
+                      for sym, d in raw.items()}
     else:
         stocks = fetch_stocks()
 
@@ -154,7 +170,7 @@ def main():
         d["ret"] = round((d["values"][-1] / 10000 - 1) * 100, 1)
 
     data = {"meta": {"months": months,
-                     "fetched": dt.date.today().isoformat(),
+                     "fetched": fetched,
                      "window": f"{months[0]} – {months[-1]}"},
             "instruments": instruments}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
